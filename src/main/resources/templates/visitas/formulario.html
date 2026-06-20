@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>El Bucle Infinito · Nueva Visita</title>
+</head>
+<body>
+<main>
+    <div class="container py-5" style="max-width:540px;">
+        <h2 class="mb-1">Registrar Visita</h2>
+        <p class="text-muted mb-4" th:if="${reserva}">
+            Reserva del <span th:text="${#temporals.format(reserva.dia,'dd/MM/yyyy')}"/> a las
+            <span th:text="${reserva.hora}"/>
+        </p>
+
+        <div class="card shadow-sm" style="border-top:4px solid #7B1D2E;">
+            <div class="card-body p-4">
+                <form th:object="${visita}"
+                      th:action="@{/clientes/{cId}/reservas/{rId}/visitas/new(cId=${reserva.cliente.id}, rId=${reserva.id})}"
+                      method="post">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Fecha de visita</label>
+                        <input type="date" class="form-control" th:field="*{fechaVisita}"
+                               th:classappend="${#fields.hasErrors('fechaVisita')} ? 'is-invalid'"/>
+                        <div class="invalid-feedback" th:errors="*{fechaVisita}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Notas</label>
+                        <textarea class="form-control" th:field="*{notas}" rows="3"
+                                  placeholder="Observaciones sobre la visita..."></textarea>
+                    </div>
+
+                    <hr class="separador my-4"/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primario px-4">Registrar</button>
+                        <a th:href="@{/clientes/{id}(id=${reserva.cliente.id})}"
+                           class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

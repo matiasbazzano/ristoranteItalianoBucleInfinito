@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>El Bucle Infinito · Mesas</title>
+</head>
+<body>
+<main>
+    <div class="container py-5">
+        <h2 class="mb-4">Mesas del Restaurante</h2>
+        <div class="row g-3">
+            <div th:each="mesa : ${mesas}" class="col-md-3 col-sm-6">
+                <div class="card card-mesa shadow-sm" th:classappend="${!mesa.activa} ? ' inactiva'">
+                    <div class="card-body text-center py-4">
+                        <div style="font-size:2rem; margin-bottom:0.5rem;">🪑</div>
+                        <h5 class="mb-1">Mesa <span th:text="${mesa.numero}"/></h5>
+                        <p class="text-muted mb-2">Capacidad: <strong th:text="${mesa.capacidad}"/> personas</p>
+                        <span th:if="${mesa.activa}"
+                              class="badge" style="background:#5C7A3E; color:#fff;">Disponible</span>
+                        <span th:unless="${mesa.activa}"
+                              class="badge bg-secondary">No disponible</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

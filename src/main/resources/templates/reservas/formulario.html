@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>El Bucle Infinito · Reserva</title>
+</head>
+<body>
+<main>
+    <div class="container py-5" style="max-width:640px;">
+        <h2 class="mb-4" th:text="${reserva.isNew() ? 'Nueva Reserva' : 'Editar Reserva'}"/>
+
+        <div class="card shadow-sm" style="border-top:4px solid #C9A84C;">
+            <div class="card-body p-4">
+                <form th:object="${reserva}"
+                      th:action="${reserva.isNew() ?
+                          '/clientes/' + reserva.cliente.id + '/reservas/new' :
+                          '/clientes/' + reserva.cliente.id + '/reservas/' + reserva.id + '/edit'}"
+                      method="post">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Día</label>
+                            <input type="date" class="form-control" th:field="*{dia}"
+                                   th:classappend="${#fields.hasErrors('dia')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{dia}"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Hora</label>
+                            <select class="form-select" th:field="*{hora}">
+                                <option value="13:00">13:00</option>
+                                <option value="13:30">13:30</option>
+                                <option value="14:00">14:00</option>
+                                <option value="14:30">14:30</option>
+                                <option value="15:00">15:00</option>
+                                <option value="20:00">20:00</option>
+                                <option value="20:30">20:30</option>
+                                <option value="21:00">21:00</option>
+                                <option value="21:30">21:30</option>
+                                <option value="22:00">22:00</option>
+                                <option value="22:30">22:30</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Número de personas</label>
+                            <input type="number" class="form-control" th:field="*{cantidadPersonas}"
+                                   min="1" max="20"
+                                   th:classappend="${#fields.hasErrors('cantidadPersonas')} ? 'is-invalid'"/>
+                            <div class="invalid-feedback" th:errors="*{cantidadPersonas}"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Estado</label>
+                            <select class="form-select" th:field="*{estado}">
+                                <option value="PENDIENTE">PENDIENTE</option>
+                                <option value="CONFIRMADA">CONFIRMADA</option>
+                                <option value="CANCELADA">CANCELADA</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Tipo de mesa</label>
+                            <select class="form-select" th:field="*{tipoMesa}">
+                                <option value="">-- Selecciona --</option>
+                                <option th:each="tipo : ${tiposMesa}"
+                                        th:value="${tipo.nombre}"
+                                        th:text="${tipo.nombre}"/>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Comida especial</label>
+                            <select class="form-select" th:field="*{comidaEspecial}">
+                                <option value="">-- Ninguna --</option>
+                                <option th:each="comida : ${comidasEspeciales}"
+                                        th:value="${comida.nombre}"
+                                        th:text="${comida.nombre}"/>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Mesa asignada (opcional)</label>
+                            <select class="form-select" th:field="*{mesa}">
+                                <option value="">-- Sin asignar --</option>
+                                <option th:each="mesa : ${mesas}"
+                                        th:value="${mesa.id}"
+                                        th:text="'Mesa ' + ${mesa.numero} + ' (' + ${mesa.capacidad} + ' pers.) ' + (${mesa.activa} ? '' : '⚠ Inactiva')"
+                                        th:disabled="${!mesa.activa}"/>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="separador my-4"/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-acento px-4">Guardar Reserva</button>
+                        <a th:href="${reserva.cliente != null ? '/clientes/' + reserva.cliente.id : '/clientes'}"
+                           class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

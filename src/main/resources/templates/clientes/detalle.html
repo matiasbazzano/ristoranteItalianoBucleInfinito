@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>El Bucle Infinito · Cliente</title>
+</head>
+<body>
+<main>
+    <div class="container py-5">
+        <div class="row g-4">
+            <!-- Card Cliente -->
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm" style="border-top: 4px solid #7B1D2E;">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <div style="background:#7B1D2E; color:#F5F0E8; border-radius:50%;
+                                        width:48px; height:48px; display:flex; align-items:center;
+                                        justify-content:center; font-size:1.4rem; font-family:'Playfair Display',serif;">
+                                <th:block th:text="${#strings.substring(cliente.nombre,0,1)}"/>
+                            </div>
+                            <div>
+                                <h4 class="mb-0" th:text="${cliente.nombre + ' ' + cliente.apellido}"/>
+                                <span th:if="${cliente.vip}" class="badge-vip">VIP ♦</span>
+                            </div>
+                        </div>
+                        <hr class="separador"/>
+                        <p><strong>Teléfono:</strong> <span th:text="${cliente.telefono}"/></p>
+                        <p><strong>Dirección:</strong> <span th:text="${cliente.direccion}"/></p>
+                        <p><strong>Ciudad:</strong> <span th:text="${cliente.ciudad}"/></p>
+                        <div class="d-flex gap-2 mt-3">
+                            <a th:href="@{/clientes/{id}/edit(id=${cliente.id})}" class="btn btn-sm btn-primario">Editar</a>
+                            <a th:href="@{/clientes/{id}/reservas/new(id=${cliente.id})}" class="btn btn-sm btn-acento">+ Reserva</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reservas -->
+            <div class="col-md-8">
+                <h4 class="mb-3">Reservas</h4>
+                <div th:if="${cliente.reservas.empty}" class="alert alert-warning">
+                    Este cliente no tiene reservas aún.
+                </div>
+                <div th:each="reserva : ${cliente.reservas}" class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1">
+                                    <span th:text="${#temporals.format(reserva.dia, 'dd/MM/yyyy')}"/>
+                                    &nbsp;·&nbsp;
+                                    <span th:text="${reserva.hora}"/>
+                                    &nbsp;·&nbsp;
+                                    <span th:text="${reserva.cantidadPersonas}"/> personas
+                                </h6>
+                                <small class="text-muted">
+                                    <span th:if="${reserva.tipoMesa}" th:text="'Mesa: ' + ${reserva.tipoMesa.nombre}"/>
+                                    <span th:if="${reserva.comidaEspecial}" th:text="' · ' + ${reserva.comidaEspecial.nombre}"/>
+                                    <span th:if="${reserva.mesa}" th:text="' · Nº ' + ${reserva.mesa.numero}"/>
+                                </small>
+                            </div>
+                            <span class="estado-pill"
+                                  th:classappend="'estado-' + ${reserva.estado}"
+                                  th:text="${reserva.estado}"/>
+                        </div>
+                        <!-- Visitas -->
+                        <div th:unless="${reserva.visitas.empty}" class="mt-2">
+                            <small class="text-muted fw-bold">Visitas registradas:</small>
+                            <ul class="list-unstyled mb-0 ms-2">
+                                <li th:each="visita : ${reserva.visitas}" class="small text-muted">
+                                    <span th:text="${#temporals.format(visita.fechaVisita,'dd/MM/yyyy')}"/> —
+                                    <!-- BAD PRACTICE [S5131]: th:utext renders content without HTML escaping (XSS) -->
+                                    <span th:utext="${visita.notas}"/>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-2 d-flex gap-2">
+                            <a th:href="@{/clientes/{cId}/reservas/{rId}/edit(cId=${cliente.id}, rId=${reserva.id})}"
+                               class="btn btn-outline-secondary btn-sm">Editar</a>
+                            <a th:href="@{/clientes/{cId}/reservas/{rId}/visitas/new(cId=${cliente.id}, rId=${reserva.id})}"
+                               class="btn btn-sm btn-primario">+ Visita</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a th:href="@{/clientes}" class="btn btn-outline-secondary">← Volver a clientes</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

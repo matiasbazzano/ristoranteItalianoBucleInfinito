@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Ristorante El Bucle Infinito · Bienvenida</title>
+</head>
+<body>
+<main>
+    <!-- Hero Section -->
+    <section style="background: linear-gradient(135deg, #2C1010 0%, #7B1D2E 50%, #1a0a0a 100%);
+                    min-height: 92vh; display:flex; align-items:center; justify-content:center;
+                    text-align:center; padding: 2rem;">
+        <div>
+            <img th:src="@{/images/logo.png}" alt="El Bucle Infinito" style="height:220px; margin-bottom:1.5rem;">
+            <h1 style="font-family:'Playfair Display',serif; color:#F5F0E8; font-size:3.5rem; font-weight:700; margin-bottom:0.5rem;">
+                El Bucle Infinito
+            </h1>
+            <p style="color:#C9A84C; font-size:1.1rem; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.5rem;">
+                Ristorante Italiano · San Sebastián · Montevideo
+            </p>
+            <p style="color:rgba(245,240,232,0.7); font-size:1.1rem; margin-bottom:2.5rem; max-width:480px; margin-left:auto; margin-right:auto;">
+                Prueba nuestro Spaghetti Code.<br>
+                Servicio sin recursividad infinita en los tiempos de espera.
+            </p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a th:href="@{/clientes/new}"
+                   style="background:#C9A84C; color:#1a1a1a; font-weight:700; padding:14px 36px;
+                          border-radius:4px; text-decoration:none; font-size:1rem; letter-spacing:0.1em;
+                          text-transform:uppercase;">
+                    Reservar Mesa
+                </a>
+                <a th:href="@{/clientes}"
+                   style="background:transparent; color:#F5F0E8; border:2px solid rgba(245,240,232,0.5);
+                          font-weight:700; padding:14px 36px; border-radius:4px; text-decoration:none;
+                          font-size:1rem; letter-spacing:0.1em; text-transform:uppercase;">
+                    Ver Clientes
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5" style="background:#F5F0E8;">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md-4">
+                    <div class="p-4">
+                        <div style="font-size:2.5rem; color:#7B1D2E; margin-bottom:1rem;">🍝</div>
+                        <h4>Pasta Fresca</h4>
+                        <p class="text-muted">Cocina italiana con deuda técnica, bugs al dente y code smells recién salidos del horno. <br>
+                            100% hecho con IA, 0% de revisión humana.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4">
+                        <div style="font-size:2.5rem; color:#7B1D2E; margin-bottom:1rem;">🌿</div>
+                        <h4>Opciones Especiales</h4>
+                        <p class="text-muted">Menú vegetariano y sin gluten disponible. Refactorizamos la receta, no el sabor.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-4">
+                        <div style="font-size:2.5rem; color:#7B1D2E; margin-bottom:1rem;">👑</div>
+                        <h4>Tarjeta VIP</h4>
+                        <p class="text-muted">Atención preferente, mesa premium y descuentos exclusivos para quienes volvieron después del último deploy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
