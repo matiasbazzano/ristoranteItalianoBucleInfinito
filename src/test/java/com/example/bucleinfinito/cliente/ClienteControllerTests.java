@@ -10,8 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// BAD PRACTICE [S2699]: test without any assertion
-// BAD PRACTICE [S2925]: Thread.sleep() in test
+// BAD PRACTICE [S2699]: test without any assertion.
+// BAD PRACTICE [S2925]: Thread.sleep() in test.
 @SpringBootTest
 @AutoConfigureMockMvc
 class ClienteControllerTests {
